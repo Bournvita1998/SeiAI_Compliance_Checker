@@ -11,7 +11,7 @@ Setup Instructions
 
 ### 1\. Clone the Repository
 
-`git clone <repository_url>
+`git clone https://github.com/Bournvita1998/SeiAI_Compliance_Checker
 cd compliance_checker`
 
 ### 2\. Create a Virtual Environment
@@ -40,20 +40,7 @@ Future Enhancements
 -------------------
 
 -   Add more complex compliance checks, including machine learning models for advanced content analysis.
--   Support additional input formats, such as PDFs or plain text files.
+-   Support additional input formats, such as PDFs or plain text files or images, etc.
 -   Implement more detailed reporting with explanations and recommendations for compliance improvements.
-- Hard coding in compliance rules can be improved
-- input can be of multiple types like pdf, url, etc.
-- Using ML models wherever required
-- Break different compliance as per the risk involved with each like: high, medium, low
-- 
-- 
-- 
-- 
-- Personal
-- improve input and output formats, use classes
-- add validations
-- add exceptions
-- more production level code
-- Look into details of sei ai and map as much as possible
-- 
+-   Hard coding in compliance rules can be improved so that for a given text, we can automatically create the compliance rules
+-   We can break different compliance as per the risk involved with each like: high, medium, low

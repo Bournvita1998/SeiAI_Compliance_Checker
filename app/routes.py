@@ -1,25 +1,39 @@
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException
 from app.web_scraper import fetch_webpage_content
 from app.compliance_checker import check_compliance
 from app.compliance_rules import compliance_rules
+from app.models import ComplianceRequest, ComplianceResponse, ErrorResponse
+import logging
 
 router = APIRouter()
 
 @router.get("/health")
-async def health_check():
+async def health_check() -> dict:
+    """
+    Health check endpoint.
+
+    Returns:
+        dict: A simple status message.
+    """
     return {"status": "ok"}
 
-@router.post("/check_compliance")
-async def check_compliance_api(request: Request):
-    data = await request.json()
-    url = data.get("url")
+@router.post("/check_compliance", response_model=ComplianceResponse, responses={400: {"model": ErrorResponse}})
+async def check_compliance_api(request: ComplianceRequest) -> ComplianceResponse:
+    """
+    Check compliance of a webpage against the defined rules.
 
-    if not url:
-        raise HTTPException(status_code=400, detail="URL is required")
+    Args:
+        request (ComplianceRequest): The request containing the URL.
+
+    Returns:
+        ComplianceResponse: The compliance check results.
+    """
+    url = request.url
 
     try:
-        page_text = fetch_webpage_content(url)
+        page_text = await fetch_webpage_content(url)
     except ValueError as e:
+        logging.error(f"Error fetching webpage: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
     non_compliant_terms, (term_suggestions, context_suggestions) = check_compliance(page_text, compliance_rules)

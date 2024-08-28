@@ -43,7 +43,7 @@ def check_compliance(page_text: str, rules: dict) -> Tuple[List[str], Tuple[List
 
     return non_compliant_terms, (term_suggestions, context_suggestions)
 
-def check_disclosure_presence(page_text: str, disclosure: str) -> bool:
+def check_disclosure_presence_with_string_matching(page_text: str, disclosure: str) -> bool:
     """
     Check if the specific disclosure text is present in the webpage text.
 

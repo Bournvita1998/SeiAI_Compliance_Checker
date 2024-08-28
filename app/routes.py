@@ -73,7 +73,7 @@ async def check_disclosure_api(request: DisclosureCheckRequest) -> DisclosureChe
         logging.error(f"Error fetching webpage: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
-    # disclosure_present = check_disclosure_presence(page_text, disclosure_text)
+    # is_present = check_disclosure_presence_with_string_matching(page_text, disclosure_text)
     is_present = check_disclosure_with_llm(page_text, disclosure_text)
 
     return DisclosureCheckResponse(disclosure_present=is_present)

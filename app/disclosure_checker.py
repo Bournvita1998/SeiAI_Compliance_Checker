@@ -1,14 +1,12 @@
-import openai
 import os
 from dotenv import load_dotenv
+from openai import OpenAI
 
-# load_dotenv()
-# openai.api_key = os.getenv("OPENAI_API_KEY")
+
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def check_disclosure_with_llm(page_text: str, disclosure_text: str) -> bool:
-    load_dotenv()
-    openai.api_key = os.getenv("OPENAI_API_KEY")
-
     prompt = (
         f"Given the following webpage content:\n\n{page_text}\n\n"
         f"Does this webpage contain the following disclosure or a semantically similar statement?\n\n"
@@ -16,19 +14,15 @@ def check_disclosure_with_llm(page_text: str, disclosure_text: str) -> bool:
     )
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are a compliance assistant."},
-                {"role": "user", "content": prompt},
-            ],
-            max_tokens=100,
-        )
+        response = client.chat.completions.create(model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a compliance assistant."},
+            {"role": "user", "content": prompt},
+        ],
+        max_tokens=100)
 
-        print(response)
         # Extract the response text
-        result = response['choices'][0]['message']['content'].strip().lower()
-        print(result)
+        result = response.choices[0].message.content.strip().lower()
         return "yes" in result
     except Exception as e:
         print(f"Error with LLM: {str(e)}")

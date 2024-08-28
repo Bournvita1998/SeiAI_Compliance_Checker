@@ -2,7 +2,6 @@
 
 from fastapi import APIRouter, HTTPException
 
-from app.disclosure_checker import check_disclosure_with_llm
 from app.web_scraper import fetch_webpage_content
 from app.compliance_checker import *
 from app.compliance_rules import compliance_rules
@@ -53,27 +52,3 @@ async def check_compliance_api(request: ComplianceRequest) -> ComplianceResponse
 
     return response
 
-@router.post("/check_disclosure", response_model=DisclosureCheckResponse, responses={400: {"model": ErrorResponse}})
-async def check_disclosure_api(request: DisclosureCheckRequest) -> DisclosureCheckResponse:
-    """
-    Check if a specific disclosure text is present on the webpage.
-
-    Args:
-        request (DisclosureCheckRequest): The request containing the URL and disclosure text.
-
-    Returns:
-        DisclosureCheckResponse: The result indicating if the disclosure is present.
-    """
-    url = request.url
-    disclosure_text = request.disclosure_text
-
-    try:
-        page_text = await fetch_webpage_content(url)
-    except ValueError as e:
-        logging.error(f"Error fetching webpage: {str(e)}")
-        raise HTTPException(status_code=400, detail=str(e))
-
-    # is_present = check_disclosure_presence_with_string_matching(page_text, disclosure_text)
-    is_present = check_disclosure_with_llm(page_text, disclosure_text)
-
-    return DisclosureCheckResponse(disclosure_present=is_present)

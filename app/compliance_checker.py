@@ -42,16 +42,3 @@ def check_compliance(page_text: str, rules: dict) -> Tuple[List[str], Tuple[List
             })
 
     return non_compliant_terms, (term_suggestions, context_suggestions)
-
-def check_disclosure_presence_with_string_matching(page_text: str, disclosure: str) -> bool:
-    """
-    Check if the specific disclosure text is present in the webpage text.
-
-    Args:
-        page_text (str): The text content of the webpage.
-        disclosure (str): The disclosure text to check for.
-
-    Returns:
-        bool: True if the disclosure is present, False otherwise.
-    """
-    return disclosure.lower() in page_text.lower()

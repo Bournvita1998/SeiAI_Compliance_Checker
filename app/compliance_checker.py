@@ -34,7 +34,7 @@ def check_compliance(page_text: str, rules: dict) -> Tuple[List[str], Tuple[List
 
     # Check for contextual rules
     for context, details in rules["contextual_rules"].items():
-        if context in page_text.lower():
+        if context.lower() in page_text.lower():
             context_suggestions.append({
                 "context": context,
                 "rule": details["rule"],

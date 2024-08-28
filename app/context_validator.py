@@ -1,3 +1,5 @@
+# context_validator.py
+
 def check_context_compliance(text: str, context: str, rule: str) -> bool:
     """
     Check the compliance of the context in the text according to the given rule.

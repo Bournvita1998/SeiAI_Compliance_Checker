@@ -1,3 +1,5 @@
+# web_scraper.py
+
 import httpx
 from bs4 import BeautifulSoup
 

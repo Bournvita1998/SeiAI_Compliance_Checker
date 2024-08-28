@@ -23,3 +23,10 @@ class ComplianceResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str
+
+class DisclosureCheckRequest(BaseModel):
+    url: HttpUrl
+    disclosure_text: str
+
+class DisclosureCheckResponse(BaseModel):
+    disclosure_present: bool

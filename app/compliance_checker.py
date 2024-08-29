@@ -1,4 +1,5 @@
 # compliance_checker.py
+import re
 
 from app.compliance_rules import compliance_rules
 from typing import List, Dict, Tuple
@@ -42,3 +43,22 @@ def check_compliance(page_text: str, rules: dict) -> Tuple[List[str], Tuple[List
             })
 
     return non_compliant_terms, (term_suggestions, context_suggestions)
+
+def check_disclosure_with_string_match(page_text: str, disclosure_text:str) -> bool:
+    print(normalize_text(disclosure_text))
+    print(normalize_text(page_text))
+    return normalize_text(disclosure_text) in normalize_text(page_text)
+
+
+def normalize_text(text:str) -> str:
+    # return re.sub(r'[^\w\s]','', text).lower()
+    return re.sub(r'\W+','', text).lower()
+
+# # processing the text:
+# # fdic-insuread: fdic insured
+# # are missing from text
+# # comma after member
+#
+#
+# # common things can be missed
+
